@@ -73,14 +73,26 @@ def get_dataset(pair_file_path, train_ratio, val_ratio):
             test_data.append([j['id1'],j['id2'],j['label']])
     return train_data,val_data,test_data
 
-
+import argparse
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Code Clone Detection")
+    parser.add_argument('--dataset', default='bcb',
+                        help='The name of the dataset')
+    parser.add_argument('--pair_file', default='',
+                        help='The path of the clone pairs')
+    parser.add_argument('--nodedataset_path', default='data/oj/node_emb',
+                        help='node emb path')
+    parser.add_argument('--pathdataset_path', default='data/oj/path_emb',
+                        help='path emb path')
+    parser.add_argument('--pre_model', default='model.pkl',
+                        help='pre_model')
+    args = parser.parse_args()
 
-    dataset='oj' #The name of the dataset
-    pair_file='clo/oj_clone_ids.pkl'
-    nodedataset_path = 'data/oj/node_emb'
-    pathdataset_path = 'data/oj/path_emb'
-    pre_model = torch.load('model.pkl')
+    dataset=args.dataset #The name of the dataset
+    pair_file=args.pair_file
+    nodedataset_path = args.nodedataset_path
+    pathdataset_path = args.pathdataset_path
+    pre_model = torch.load(args.pre_model)
 
     train_ratio, val_ratio, test_ratio = 6, 2, 2
     train_split_data,val_split_data,test_split_data=get_dataset(pair_file,train_ratio, val_ratio, test_ratio)

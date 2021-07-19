@@ -237,10 +237,8 @@ def java_get_node_list(ast):
 def java_get_node(node,node_list,id,src,dst,deep_label,deep_label_list):
     token, children = java_get_token(node), java_get_children(node)
     node_content = ''
-    # 是否是节点，节点存在行号信息
     if isinstance(node, Node):
         node_content = node_content + str(node.position)
-    # 是否存在子节点信息
     if len(children) == 0:
         node_content = node_content + str(token)
     else:

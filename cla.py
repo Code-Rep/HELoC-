@@ -59,27 +59,30 @@ def get_dataset(dataset_path, train_ratio, val_ratio, test_ratio):
 
 def CrossEntropyLoss_label_smooth(outputs, targets,device, num_classes=104, epsilon=0.1):
     N = targets.size(0)
-    # torch.Size([8, 10])
-    # 初始化一个矩阵, 里面的值都是epsilon / (num_classes - 1)
-
     if device=='cuda':
         smoothed_labels = torch.full(size=(N, num_classes), fill_value=epsilon / (num_classes - 1)).cuda()
     else:
         smoothed_labels = torch.full(size=(N, num_classes), fill_value=epsilon / (num_classes - 1))
-
     targets = targets.data
-    # 为矩阵中的每一行的某个index的位置赋值为1 - epsilon
     smoothed_labels.scatter_(dim=1, index=torch.unsqueeze(targets, dim=1), value=1 - epsilon)
-    # 调用torch的log_softmax
     log_prob = F.log_softmax(outputs, dim=1)
-    # 用之前得到的smoothed_labels来调整log_prob中每个值
     loss = - torch.sum(log_prob * smoothed_labels) / N
     return loss
 
-if __name__ == '__main__':
 
-    nodedataset_path = 'data/oj/node_emb'
-    pathdataset_path = 'data/oj/path_emb'
+import argparse
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="your script description")
+    parser.add_argument('--nodedataset_path', default='data/oj/node_emb',
+                        help='node emb path')
+    parser.add_argument('--pathdataset_path', default='data/oj/path_emb',
+                        help='path emb path')
+    parser.add_argument('--pre_model', default='model.pkl',
+                        help='pre_model')
+    args = parser.parse_args()
+    nodedataset_path = args.nodedataset_path
+    pathdataset_path = args.pathdataset_path
+    pre_model_dict = torch.load(args.pre_model)
 
     train_ratio, val_ratio, test_ratio = 6, 2, 2
     train_split_data, val_split_data, test_split_data = get_dataset(nodedataset_path, train_ratio, val_ratio,
@@ -93,7 +96,7 @@ if __name__ == '__main__':
     in_feats,n_layer,n_head,drop_out,n_class=768,2,1,0.5,104
 
 
-    pre_model_dict = torch.load('model_train_par.pkl')
+
 
     # pre_model_dict = pre_model.state_dict()
     if USE_GPU:
