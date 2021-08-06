@@ -1,4 +1,5 @@
 # HCLoC: Hierarchical Contrastive Learning of Code Representation
+A PyTorch Implementation of "HCLoC: Hierarchical Contrastive Learning of Code Representation"
 ## Map Any Code Snippet into Vector Embedding with HCLoC
 HCLoC is a self-supervised hierarchical contrastive learning model of code representation. Its key idea is to take the prediction node hierarchy as a pretext task for contrastive learning. Then, the learned weights are transferred to other downstream tasks or used only as embedding features. By applying a self-supervised framework, the representation features of the source code can be implemented to learn from unlabeled data.
 # Requirements <br />
