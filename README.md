@@ -11,8 +11,6 @@ flair 0.7 <br />
 pycparser 2.20 <br />
 javalang 0.13.0 <br />
 gensim 3.8.3 <br />
-<<<<<<< HEAD
-gensim 3.8.3 <br />
 # Run <br />
 ## pre-training 
 =======
