@@ -7,6 +7,7 @@ flair 0.7 <br />
 pycparser 2.20 <br />
 javalang 0.13.0 <br />
 gensim 3.8.3 <br />
+gensim 3.8.3 <br />
 # Run <br />
 ## pre-training 
 1. run ```python parsercode.py --lang oj```/ ```python parsercode.py --lang gcj```/ ```python parsercode.py --lang bcb``` to generate initial encoding.
