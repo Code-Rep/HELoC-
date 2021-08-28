@@ -16,7 +16,6 @@ gensim 3.8.3 <br />
 =======
 # Usage
 We extract the code AST node embedding and path embedding in the following two steps:
->>>>>>> 8c22b906a3f1ad759133f2dc1ebcc1a18991d6f5
 1. run ```python parsercode.py --lang oj```/ ```python parsercode.py --lang gcj```/ ```python parsercode.py --lang bcb``` to generate initial encoding.
 2. run ```python pre_training.py --dataset_nodeemb [The path to the dataset in which the nodes have been encoded]```
 # Application of HELoC in downstream tasks
