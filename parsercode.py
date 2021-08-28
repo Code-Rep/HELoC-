@@ -333,6 +333,7 @@ if __name__ == '__main__':
             node_emb_dir=root+'node_emb'
             path_dir=root+'path'
             path_emb_dir = root + 'path_emb'
+            creat_dir(code_dir, node_dir, node_emb_dir, path_dir, path_emb_dir)
 
             source=pd.read_pickle(oj_path)
             i=0
@@ -389,8 +390,7 @@ if __name__ == '__main__':
                     data['path'] = data['path'].apply(get_node_emb)
                     data.to_pickle(sub_new_path)
 
-            # print('get path emb...')
-            # embCode(save_ojpath_path,save_ojpathemb_path,'path')
+
         else:
             if args.lang=='bcb':
                 root = 'data/bcb/'
@@ -419,7 +419,6 @@ if __name__ == '__main__':
 
             i=0
             print('get code...')
-            parserWrong_list=[1223]
             pbar= tqdm(range(len(source)))
             for i in pbar:
 
@@ -485,4 +484,4 @@ if __name__ == '__main__':
                     for i ,j in data.iterrows():
                         data['ast'] = data['ast'].apply(get_node_emb)
                         data.to_pickle(sub_new_path)
-            data=pd.read_pickle(os.path.join(node_emb_dir, '0.pkl'))
+

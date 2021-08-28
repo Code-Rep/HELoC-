@@ -12,13 +12,20 @@ import time
 from sklearn.metrics import precision_recall_fscore_support
 
 
-def get_node_batch(dataset_path, data_split, begin, BATCH_SIZE):
+def get_node_batch(dataset_path, data_split, begin, BATCH_SIZE,dataset="oj"):
     inputs1, srcs1, dsts1,node_num1 = [], [], [], []
     inputs2, srcs2, dsts2, node_num2 = [], [], [], []
     labels=[]
     for i in range(begin, begin + BATCH_SIZE):
-        data1 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][0])+'.pkl'))
-        data2 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][1]) + '.pkl'))
+        if dataset=='oj':
+            data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
+            data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
+        else:
+            data=pd.read_pickle(pathdataset_path)
+            data1=data.loc[data['id']==data_split[i][0]]
+            data2=data.loc[data['id']==data_split[i][1]]
+        # data1 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][0])+'.pkl'))
+        # data2 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][1]) + '.pkl'))
         labels.append(data_split[i][2])
         for x, y in data1.iterrows():
             node_num1.append(len(y["ast"]))
@@ -41,12 +48,17 @@ def get_node_batch(dataset_path, data_split, begin, BATCH_SIZE):
 
 
 
-def get_path_batch(pathdataset_path, data_split, begin, BATCH_SIZE):
+def get_path_batch(pathdataset_path, data_split, begin, BATCH_SIZE,dataset="oj"):
     path_emb1, path_num1 = [], []
     path_emb2, path_num2 = [], []
     for i in range(begin, begin + BATCH_SIZE):
-        data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
-        data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
+        if dataset=='oj':
+            data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
+            data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
+        else:
+            data=pd.read_pickle(pathdataset_path)
+            data1=data.loc[data['id']==data_split[i][0]]
+            data2=data.loc[data['id']==data_split[i][1]]
         for x, y in data1.iterrows():
             path_num1.append(len(y['path']))
             for path in y['path']:
@@ -61,7 +73,6 @@ def get_path_batch(pathdataset_path, data_split, begin, BATCH_SIZE):
 def get_dataset(pair_file_path, train_ratio, val_ratio):
     train_data,val_data,test_data=[],[],[]
     data=pd.read_pickle(pair_file_path)
-    data=data.loc[1:10]
     train_split=int(len(data)*0.1*train_ratio)
     val_split = int(len(data) * 0.1 * val_ratio)+train_split
     for i ,j in data.iterrows():
@@ -160,8 +171,8 @@ if __name__ == '__main__':
             while (i + BATCH_SIZE) <= len(train_data_t):
                 model.train()
 
-                node_emb1, srcs1, dsts1,node_num1,node_emb2, srcs2, dsts2, node_num2,labels = get_node_batch(nodedataset_path, train_split_data, i, BATCH_SIZE)
-                path_emb1,path_num1,path_emb2,path_num2=get_path_batch(pathdataset_path, train_split_data, i, BATCH_SIZE)
+                node_emb1, srcs1, dsts1,node_num1,node_emb2, srcs2, dsts2, node_num2,labels = get_node_batch(nodedataset_path, train_split_data, i, BATCH_SIZE,dataset)
+                path_emb1,path_num1,path_emb2,path_num2=get_path_batch(pathdataset_path, train_split_data, i, BATCH_SIZE, dataset)
                 i = i + BATCH_SIZE
                 g1 = dgl.graph((srcs1, dsts1))
                 g1 = dgl.add_self_loop(g1)

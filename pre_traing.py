@@ -158,9 +158,7 @@ if __name__ == '__main__':
             # visual(g)
             tri_p, tri_n, tri_a, node, label = prepar_tri_loss(labels, inputs, len(labels))
 
-            '''
-            数据格式转换
-            '''
+
             inputs = torch.FloatTensor(inputs)
             tri_a = torch.FloatTensor(tri_a )
             tri_p = torch.FloatTensor(tri_p)
