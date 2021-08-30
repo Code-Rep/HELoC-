@@ -84,7 +84,7 @@ if __name__ == '__main__':
     pathdataset_path = args.pathdataset_path
     pre_model_dict = torch.load(args.pre_model)
 
-    train_ratio, val_ratio, test_ratio = 6, 2, 2
+    train_ratio, val_ratio, test_ratio = 8, 1, 1
     train_split_data, val_split_data, test_split_data = get_dataset(nodedataset_path, train_ratio, val_ratio,
                                                                     test_ratio)
 

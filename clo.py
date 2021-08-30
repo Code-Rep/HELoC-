@@ -17,15 +17,8 @@ def get_node_batch(dataset_path, data_split, begin, BATCH_SIZE,dataset="oj"):
     inputs2, srcs2, dsts2, node_num2 = [], [], [], []
     labels=[]
     for i in range(begin, begin + BATCH_SIZE):
-        if dataset=='oj':
-            data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
-            data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
-        else:
-            data=pd.read_pickle(pathdataset_path)
-            data1=data.loc[data['id']==data_split[i][0]]
-            data2=data.loc[data['id']==data_split[i][1]]
-        # data1 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][0])+'.pkl'))
-        # data2 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][1]) + '.pkl'))
+        data1 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][0])+'.pkl'))
+        data2 = pd.read_pickle(os.path.join(dataset_path, str(data_split[i][1]) + '.pkl'))
         labels.append(data_split[i][2])
         for x, y in data1.iterrows():
             node_num1.append(len(y["ast"]))
@@ -52,13 +45,8 @@ def get_path_batch(pathdataset_path, data_split, begin, BATCH_SIZE,dataset="oj")
     path_emb1, path_num1 = [], []
     path_emb2, path_num2 = [], []
     for i in range(begin, begin + BATCH_SIZE):
-        if dataset=='oj':
-            data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
-            data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
-        else:
-            data=pd.read_pickle(pathdataset_path)
-            data1=data.loc[data['id']==data_split[i][0]]
-            data2=data.loc[data['id']==data_split[i][1]]
+        data1 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][0]) + '.pkl'))
+        data2 = pd.read_pickle(os.path.join(pathdataset_path, str(data_split[i][1]) + '.pkl'))
         for x, y in data1.iterrows():
             path_num1.append(len(y['path']))
             for path in y['path']:
@@ -89,7 +77,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Code Clone Detection")
     parser.add_argument('--dataset', default='bcb',
                         help='The name of the dataset')
-    parser.add_argument('--pair_file', default='',
+    parser.add_argument('--pair_file', default='data/clone_pair/oj_clone_ids.pkl',
                         help='The path of the clone pairs')
     parser.add_argument('--nodedataset_path', default='data/oj/node_emb',
                         help='node emb path')
@@ -105,7 +93,7 @@ if __name__ == '__main__':
     pathdataset_path = args.pathdataset_path
     pre_model = torch.load(args.pre_model)
 
-    train_ratio, val_ratio, test_ratio = 6, 2, 2
+    train_ratio, val_ratio, test_ratio = 8, 1, 1
     train_split_data,val_split_data,test_split_data=get_dataset(pair_file,train_ratio, val_ratio, test_ratio)
 
 

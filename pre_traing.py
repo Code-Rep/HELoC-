@@ -116,12 +116,12 @@ import argparse
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="your script description")
-    parser.add_argument('--dataset_nodeemb',default='data/oj/node_emb',
+    parser.add_argument('--dataset_nodeemb',default='',
                         help='The path of the data set that has been encoded')
     args = parser.parse_args()
 
     dataset_path=args.dataset_nodeemb
-    train_ratio,val_ratio,test_ratio=6,2,2
+    train_ratio,val_ratio,test_ratio=8,1,1
     train_split_data,val_split_data,test_split_data=get_dataset(dataset_path,train_ratio,val_ratio,test_ratio)
 
     begin=0
